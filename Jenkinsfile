@@ -14,5 +14,10 @@ pipeline {
         sh 'phpunit --bootstrap src/autoload.php tests'
       }
     }
+    stage ('run tests with TestDox') {
+      steps {
+        sh 'phpunit --bootstrap src/autoload.php --testdox tests'
+      }
+    }
   }
 }

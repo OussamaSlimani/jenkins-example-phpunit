@@ -7,7 +7,7 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'email' => '/src/Email.php'
+                'email' => '/Email.php'
             );
         }
         $cn = strtolower($class);

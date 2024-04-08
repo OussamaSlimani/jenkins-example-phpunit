@@ -19,5 +19,15 @@ pipeline {
         sh 'phpunit --bootstrap src/autoload.php --testdox tests'
       }
     }
+    stage ('run tests with JUnit results') {
+      steps {
+        sh 'phpunit --bootstrap src/autoload.php --log-junit target/junit-results.xml tests'
+      }
+      post {
+        always {
+          junit testResults: 'target/*.xml'
+        }
+      }
+    }
   }
 }

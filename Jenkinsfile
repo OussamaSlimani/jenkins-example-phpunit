@@ -5,13 +5,13 @@ pipeline {
       steps {
         sh '''
           php -v
-          phpunit11 --version
+          phpunit --version
         '''
       }
     }
     stage('run tests') {
       steps {
-        sh 'phpunit11 --bootstrap src/autoload.php tests'
+        sh 'phpunit --bootstrap src/autoload.php tests'
       }
     }
   }

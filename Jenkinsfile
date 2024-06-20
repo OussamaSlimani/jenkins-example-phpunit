@@ -32,7 +32,11 @@ pipeline {
     }
     stage('Static Analysis with PHPStan') {
       steps {
-        sh 'phpstan analyze --error-format=json src -l 6 > static_analysis.json'
+        // Create custom cache directory with appropriate permissions
+        sh 'mkdir -p /var/www/phpstan_cache && chmod -R 777 /var/www/phpstan_cache'
+
+        // Run PHPStan with custom cache directory
+        sh 'phpstan analyze --error-format=json --configuration=phpstan.neon --memory-limit=1G src -l 6 > static_analysis.json'
       }
     }
   }

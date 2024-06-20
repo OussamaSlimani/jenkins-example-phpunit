@@ -35,6 +35,5 @@ pipeline {
         sh 'phpstan analyze src --level max --memory-limit=1G --cache-directory=build/phpstan/cache'
       }
     }
-    }
   }
 }

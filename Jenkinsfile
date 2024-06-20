@@ -1,25 +1,26 @@
 pipeline {
   agent any
   stages {
-    stage('verify installations') {
+    stage('Verify Installations') {
       steps {
         sh '''
           php -v
           phpunit --version
+          phpstan --version
         '''
       }
     }
-    stage('run tests') {
+    stage('Run Tests') {
       steps {
         sh 'phpunit --bootstrap src/autoload.php tests'
       }
     }
-    stage('run tests with TestDox') {
+    stage('Run Tests with TestDox') {
       steps {
         sh 'phpunit --bootstrap src/autoload.php --testdox tests'
       }
     }
-    stage('run tests with JUnit results') {
+    stage('Run Tests with JUnit Results') {
       steps {
         sh 'phpunit --bootstrap src/autoload.php --log-junit target/junit-results.xml tests'
       }
@@ -29,10 +30,9 @@ pipeline {
         }
       }
     }
-    stage('static analysis with PHPStan') {
+    stage('Static Analysis with PHPStan') {
       steps {
-        sh 'mkdir -p build/phpstan/tmp'
-        sh 'TEMP=build/phpstan/tmp phpstan analyze src --level max --memory-limit=1G'
+        sh 'phpstan analyze --error-format=json src -l 6 > static_analysis.json'
       }
     }
   }

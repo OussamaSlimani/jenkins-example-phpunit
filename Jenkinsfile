@@ -31,8 +31,8 @@ pipeline {
     }
     stage('static analysis with PHPStan') {
       steps {
-        sh 'mkdir -p build/phpstan/cache'
-        sh 'phpstan analyze src --level max --memory-limit=1G --cache-directory=build/phpstan/cache'
+        sh 'mkdir -p build/phpstan/tmp'
+        sh 'TEMP=build/phpstan/tmp phpstan analyze src --level max --memory-limit=1G'
       }
     }
   }

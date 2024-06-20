@@ -14,12 +14,12 @@ pipeline {
         sh 'phpunit --bootstrap src/autoload.php tests'
       }
     }
-    stage ('run tests with TestDox') {
+    stage('run tests with TestDox') {
       steps {
         sh 'phpunit --bootstrap src/autoload.php --testdox tests'
       }
     }
-    stage ('run tests with JUnit results') {
+    stage('run tests with JUnit results') {
       steps {
         sh 'phpunit --bootstrap src/autoload.php --log-junit target/junit-results.xml tests'
       }
@@ -27,6 +27,11 @@ pipeline {
         always {
           junit testResults: 'target/*.xml'
         }
+      }
+    }
+    stage('static analysis with PHPStan') {
+      steps {
+        sh 'phpstan analyze src --level max'
       }
     }
   }

@@ -32,11 +32,17 @@ pipeline {
     }
     stage('Static Analysis with PHPStan') {
       steps {
-        // Use a directory within the Jenkins workspace for the cache
+        // Create a custom PHPStan configuration file with tmpDir setting
+        writeFile file: 'phpstan_tmp.neon', text: '''
+parameters:
+    tmpDir: $WORKSPACE/phpstan_cache
+'''
+
+        // Create the temporary cache directory
         sh 'mkdir -p $WORKSPACE/phpstan_cache'
 
-        // Run PHPStan with custom cache directory
-        sh 'phpstan analyze --error-format=json --configuration=phpstan.neon --memory-limit=1G --tmp-dir=$WORKSPACE/phpstan_cache src -l 6 > static_analysis.json'
+        // Run PHPStan with the custom configuration file
+        sh 'phpstan analyze --error-format=json --configuration=phpstan_tmp.neon --memory-limit=1G src -l 6 > static_analysis.json'
       }
     }
   }

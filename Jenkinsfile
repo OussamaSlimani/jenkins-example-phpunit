@@ -82,7 +82,7 @@ parameters:
       steps {
         script {
           try {
-            sh 'docker build -t my-php-app .'
+            sh 'docker build -t my-php-app-2 .'
           } catch (Exception e) {
             currentBuild.result = 'FAILURE'
             error 'Docker image build failed.'
